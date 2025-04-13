@@ -1,0 +1,116 @@
+.speed-monitor {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.connection-status {
+  text-align: right;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.connected {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.disconnected {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.speed-display {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.speed-display.overspeeding {
+  background-color: #ffeded;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.speed-display h2 {
+  margin-top: 0;
+  color: #34495e;
+  font-size: 1.5rem;
+}
+
+.speed-value {
+  font-size: 4rem;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #3498db;
+}
+
+.speed-display.overspeeding .speed-value {
+  color: #e74c3c;
+}
+
+.unit {
+  font-size: 1.5rem;
+  margin-left: 5px;
+  color: #7f8c8d;
+}
+
+.warning {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+.rfid-info {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rfid-info h2 {
+  margin-top: 0;
+  color: #34495e;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ecf0f1;
+  color: black;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: bold;
+  color: #7f8c8d;
+}
+
+.value {
+  font-family: monospace;
+  background-color: #ecf0f1;
+  padding: 5px 10px;
+  border-radius: 4px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
