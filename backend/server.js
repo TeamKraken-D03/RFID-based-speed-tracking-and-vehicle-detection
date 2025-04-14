@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const Esp1Log = require('./models/esp1Log');
 const Esp2Log = require('./models/esp2Log');
 const SpeedLog = require('./models/speedLog');
+// const TamperLog = require('./models/tamperLog'); // Uncomment if using tamper logs
 
 require('dotenv').config(); // for MONGO_URI
 
@@ -73,7 +74,7 @@ function sendEmail(data) {
     service: "gmail",
     auth: {
       user: "rennydan72@gmail.com",
-      pass: "kthc hhqt qtoe btii", // app password
+      pass: "kthc hhqt qtoe btii", // Use .env for security
     },
   });
 
@@ -142,28 +143,37 @@ function handleClient(socket) {
           console.error('ESP2 log DB error:', err.message);
         }
 
-        try {
-          await SpeedLog.create({
-            uid: latestUID,
-            email: currentEmail,
-            startTime,
-            endTime,
-            speed: speed.toFixed(2),
-            overspeedCount: speed > thresholdSpeed ? 1 : 0,
-          });
+        // Check both RFID logs before logging into SpeedLog
+        const esp1Exists = await Esp1Log.findOne({ uid: latestUID }).sort({ timestamp: -1 });
+        const esp2Exists = await Esp2Log.findOne({ uid: latestUID }).sort({ timestamp: -1 });
 
-          console.log('Speed log stored');
-        } catch (err) {
-          console.error('Speed log DB error:', err.message);
-        }
+        if (esp1Exists && esp2Exists) {
+          try {
+            await SpeedLog.create({
+              uid: latestUID,
+              email: currentEmail,
+              startTime,
+              endTime,
+              speed: speed.toFixed(2),
+              overspeedCount: speed > thresholdSpeed ? 1 : 0,
+            });
 
-        if (speed > thresholdSpeed && currentEmail) {
-          sendEmail({
-            speed: speed.toFixed(2),
-            uid: latestUID,
-            timestamp: latestTimestamp,
-            email: currentEmail,
-          });
+            console.log('Speed log stored');
+          } catch (err) {
+            console.error('Speed log DB error:', err.message);
+          }
+
+          if (speed > thresholdSpeed && currentEmail) {
+            sendEmail({
+              speed: speed.toFixed(2),
+              uid: latestUID,
+              timestamp: latestTimestamp,
+              email: currentEmail,
+            });
+          }
+        } else {
+          console.warn(`Skipping SpeedLog: UID ${latestUID} missing either ESP1 or ESP2 log.`);
+
         }
 
         broadcastData();
