@@ -32,7 +32,7 @@ let currentEmail = '';
 
 const uidEmailMap = {
   'b3 ab 9d 34': 'cb.sc.u4aie23334@cb.students.amrita.edu',
-  '23 7c 23 35': 'cb.sc.u4aie23322@cb.students.amrita.edu',
+  '23 7c 23 35': 'rennynotes25@gmail.com',
 };
 
 const app = express();
