@@ -120,7 +120,7 @@ function handleClient(socket) {
     if (time) {
       const timestamp = getCurrentTimeIST();
 
-      if (address === '192.168.1.46') {
+      if (address === '192.168.197.10') {
         startTime = time / 1000;
 
         try {
